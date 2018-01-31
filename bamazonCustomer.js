@@ -17,7 +17,6 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
   	readProducts();
-  	checkAndBuy2();
 	connection.end();
 });
 
@@ -30,7 +29,7 @@ function readProducts() {
         });
 
         //
-        console.log("Do you like what you see?: ");
+        console.log("Seeing anything you like?: ");
         console.log("===========================================");
 
     // here we push data from the 'product' database table into the display table
@@ -40,77 +39,6 @@ function readProducts() {
     console.log("-----------------------------------");
     console.log(table.toString());
   });
-
-
-// The app should then prompt users with two messages.
- inquirer.prompt([{
-
-            name: "itemId",
-            type: "input",
-            message: "See something you like? Just enter its ID! ",
-
-            validate: function(value) {
-                if (isNaN(value) == false) {
-                 	return true;
-                } else {
-                    return false;
-                }
-            }
-        }, {
-            name: "Quantity",
-            type: "input",
-            message: "How many of this item would you like to buy?",
-
-            validate: function(value) {
-                if (isNaN(value) == false) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-        }]).then(function(answer) {
-
-            var chosenId = answer.itemId - 1
-
-            var chosenProduct = res[chosenId]
-
-            var chosenQuantity = answer.Quantity
-
-            if (chosenQuantity < res[chosenId].StockQuantity) {
-
-                console.log("Your total for " + "(" + answer.Quantity + ")" + " - " + res[chosenId].ProductName + " is: " + res[chosenId].Price.toFixed(2) * chosenQuantity);
-
-                connection.query("UPDATE products SET ? WHERE ?", [{
-
-                    StockQuantity: res[chosenId].StockQuantity - chosenQuantity
-
-                }, {
-
-                    id: res[chosenId].id
-
-                }], function(err, res) {
-
-                    //console.log(err);
-
-                    checkAndBuy2();
-
-                });
-
-
-
-            } else {
-
-                console.log("Sorry, insufficient Quanity at this time. All we have is " + res[chosenId].StockQuantity + " in our Inventory.");
-
-                checkAndBuy2();
-
-
-            }
-
-        })
-
-    })
 
 }
 
