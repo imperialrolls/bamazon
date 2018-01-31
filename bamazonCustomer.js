@@ -17,7 +17,7 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
   	readProducts();
-	connection.end();
+	// connection.end();
 });
 
 function readProducts() {
@@ -27,9 +27,6 @@ function readProducts() {
         var table = new Table({
             head: ['ID', 'Product Name', 'Department', 'Price', 'Stock Quantity']
         });
-
-        //
-        console.log("Seeing anything you like?: ");
         console.log("===========================================");
 
     // here we push data from the 'product' database table into the display table
@@ -38,14 +35,70 @@ function readProducts() {
     }
     console.log("-----------------------------------");
     console.log(table.toString());
+	productSearch();
   });
 
 }
 
 
+function productSearch() {
+  inquirer.prompt([
+    {
+      name: "item_id",
+      type: "choices",
+      message: "Welcome to Bamazon! What is the id of the product you would like to buy?",
+      validate: function (value) {
+        if (isNaN(value) === false) {
+          return true;
+        }
+        console.log("Please enter a item ID!");
+        return false;
+      }
+    },
+    {
+      name: "stock",
+      type: "input",
+      message: "Enter the quantity.",
+      validate: function (value) {
+        if (isNaN(value) === false) {
+          return true;
+        }
+        console.log("Please enter a item ID!");
+        return false;
+      }
+    }
+  ]).then(function (answers) {
+    //variables that stores user inputs from question prompt
+    let id = answers.item_id;
+    let qty = answers.stock;
+    updateStock();
+    //connects to database and updates stock_quantity when user purchases items
+    function updateStock() {
+      var query = "SELECT * FROM products WHERE ?";
+      var queryUpdate = "UPDATE products SET ? WHERE ?";
+      connection.query(query, { item_id: id }, function (err, res) {
+      	// console.log(res);
+        var price = res[0].price;
+        var quantity = res[0].stock_quantity;
+        if (quantity >= answers.stock) {
+          quantity = quantity - answers.stock;
+          console.log(`${quantity} remaining.`);
+          var total = (answers.stock * price);
+          console.log(`Thanks for purchasing! Your total is $${total}`);
+          connection.query(queryUpdate, [{ stock_quantity: quantity }, { item_id: id }], function (err) {
+            if (err) throw err;
+          })
+        } else {
+          console.log("Insufficient quantity!");
+          productSearch();
+        }
+      })
+    }
+  })
+}
 
 
-// checkAndBuy2();
+
 
 
 
