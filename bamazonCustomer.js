@@ -31,16 +31,17 @@
 // list of requirements
 
 var mysql = require("mysql");
+var connection = require('./dbConnect.js');
 var inquirer = require('inquirer');
 var Table = require('cli-table');
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "",
-  database: "bamazon"
-});
+// var connection = mysql.createConnection({
+//   host: "localhost",
+//   port: 3306,
+//   user: "root",
+//   password: "",
+//   database: "bamazon"
+// });
 
 // connect to database and console log connection id
 connection.connect(function(err) {
