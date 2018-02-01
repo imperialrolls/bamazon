@@ -35,14 +35,6 @@ var connection = require('./dbConnect.js');
 var inquirer = require('inquirer');
 var Table = require('cli-table');
 
-// var connection = mysql.createConnection({
-//   host: "localhost",
-//   port: 3306,
-//   user: "root",
-//   password: "",
-//   database: "bamazon"
-// });
-
 // connect to database and console log connection id
 connection.connect(function(err) {
   if (err) throw err;
@@ -137,7 +129,7 @@ function finalAction() {
   inquirer.prompt([{
     type: 'list',
     message: 'Choose an option.',
-    choices: ['continue shopping', 'exit bamazon'],
+    choices: ['Continue Shopping', 'Exit Bamazon'],
     name: "action"
   }, ]).then(function(selection) {
     switch (selection.action) {
@@ -148,7 +140,6 @@ function finalAction() {
 		case 'Exit Bamazon':
 		process.exit();
 		break;       
-
 
     }
   }).catch(function(error) {
