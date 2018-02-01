@@ -118,13 +118,14 @@ function productSearch() {
         // this will display the total price of purchased items
           var total = (answers.stock * price);
           console.log(`Thanks for shopping! Your total is $${total}`);
-          promptAction();
+          finalAction();
           connection.query(queryUpdate, [{ stock_quantity: quantity }, { item_id: id }], function (err) {
             if (err) throw err;
           })
         } else {
           console.log("Insufficient Quantity!");
-          productSearch();
+          // productSearch();
+          finalAction();
         }
       })
     }
@@ -132,7 +133,7 @@ function productSearch() {
 
 }
 
-function promptAction() {
+function finalAction() {
   inquirer.prompt([{
     type: 'list',
     message: 'Choose an option.',
