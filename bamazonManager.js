@@ -1,9 +1,27 @@
+// Running this application will:
+
+
+// List a set of menu options:
+// View Products for Sale
+// View Low Inventory
+// Add to Inventory
+// Add New Product
+// If a manager selects View Products for Sale, the app should list every available item: the item IDs, names, prices, and quantities.
+// If a manager selects View Low Inventory, then it should list all items with an inventory count lower than five.
+// If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
+// If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
+
+
+
+
+// here we list the required files and libraries need
+
 var mysql = require('mysql');
 var connection = require('./dbConnect.js');
 var inquirer = require('inquirer');
 var Table = require('cli-table');
 
-
+// this function connects to the mysql database and returns a display view of the 'product' table
 function viewAllProducts() {
   connection.query('SELECT * FROM products ORDER BY department_name', function(error, res) {
     if (error) throw error;
@@ -22,6 +40,7 @@ function viewAllProducts() {
   });
 };
 
+// this function returns all 'items' from the 'product' table with a quantity below 10
 function lowInventoryList() {
   connection.query("SELECT * FROM products WHERE stock_quantity<=10", function(error, res) {
     if (error) throw error;
@@ -39,11 +58,13 @@ function lowInventoryList() {
   });
 };
 
+// this function completes the proceeding function adding a user specified amount of inventory via an mysql UPDATE
 function completeAddInventory(item) {
   inquirer.prompt([{Zx
     type: 'input',
     message: '\nSpecify amount of stock to add to ' + item.product_name + '.\n',
     name: 'addStock',
+    // validate with a isNOTaNUMBER function
     validate: function(value) {
       if (isNaN(value) === false) {
         return true;
@@ -67,7 +88,8 @@ function completeAddInventory(item) {
     throw error;
   });
 };
-
+// First part of the preceeding function, which prompts our user to select and item to add inventory to via a
+// dislay of all items in our 'product' table
 function selectAddInventory(data) {
   inquirer.prompt([{
     type: 'list',
@@ -94,6 +116,7 @@ function selectAddInventory(data) {
   });
 };
 
+// a simple query function that returns all from the 'product' table
 function addInventory() {
   var sqlQuery = 'SELECT * FROM products';
   connection.query(sqlQuery, function(error, data) {
@@ -102,7 +125,8 @@ function addInventory() {
   });
 };
 
-
+// function to add new products to our database
+// 1st run a series of prompts to collect the necessary data/values
 function addNewProduct() {
   inquirer.prompt([{
     type: 'input',
@@ -135,6 +159,7 @@ function addNewProduct() {
       }
       return false;
     }
+// now let's relate the prompt values to our 'product' table and INSERT
   }]).then(function(response) {
     var sqlQuery = 'INSERT INTO products SET ?';
     var params = {
@@ -152,6 +177,8 @@ function addNewProduct() {
 });
 };
 
+// this awesome function displays list of prompts which map to the functions in this file and allows
+// the user to exit the entire process
 function promptAction() {
   inquirer.prompt([{
     type: 'list',
