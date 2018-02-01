@@ -177,7 +177,7 @@ function addNewProduct() {
 });
 };
 
-// this awesome function displays list of prompts which map to the functions in this file and allows
+// this awesome function displays a list of prompts which map to the functions in this file and allows
 // the user to exit the entire process
 function promptAction() {
   inquirer.prompt([{
