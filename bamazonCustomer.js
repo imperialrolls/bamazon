@@ -48,13 +48,12 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
   	readProducts();
-	// connection.end();
 });
 
 	
 function readProducts() {
-  console.log("Selecting all products...\n");
-  connection.query("SELECT * FROM products", function(err, res) {
+  console.log("Selecting all Bamazon products...\n");
+  connection.query("SELECT * FROM products ORDER BY department_name", function(err, res) {
 // define a new table which will display the results of our database query
         var table = new Table({
             head: ['ID', 'Product Name', 'Department', 'Price', 'Stock Quantity']
@@ -79,12 +78,12 @@ function productSearch() {
     {
       name: "item_id",
       type: "choices",
-      message: "Hello consumer! What is the id of the product you would like to purchase?",
+      message: "Welcome to Bamazon. Enter the ID of the product you would like to purchase.",
       validate: function (value) {
         if (isNaN(value) === false) {
         	return true;
         	}
-        	console.log("Attention shopper! Don't forget the ID.");
+        	console.log("Don't forget the ID!");
         	return false;
       	}
     },
@@ -96,7 +95,7 @@ function productSearch() {
         if (isNaN(value) === false) {
           return true;
         }
-        console.log("Attention shopper! How many would you like?");
+        console.log("How many would you like?");
         return false;
       }
     }
@@ -119,17 +118,44 @@ function productSearch() {
         // this will display the total price of purchased items
           var total = (answers.stock * price);
           console.log(`Thanks for shopping! Your total is $${total}`);
+          promptAction();
           connection.query(queryUpdate, [{ stock_quantity: quantity }, { item_id: id }], function (err) {
             if (err) throw err;
           })
         } else {
-          console.log("Insufficient quantity!");
+          console.log("Insufficient Quantity!");
           productSearch();
         }
       })
     }
   })
+
 }
+
+function promptAction() {
+  inquirer.prompt([{
+    type: 'list',
+    message: 'Choose an option.',
+    choices: ['continue shopping', 'exit bamazon'],
+    name: "action"
+  }, ]).then(function(selection) {
+    switch (selection.action) {
+		case 'Continue Shopping':
+		readProducts();
+		break;
+
+		case 'Exit Bamazon':
+		process.exit();
+		break;       
+
+
+    }
+  }).catch(function(error) {
+    throw error;
+  });
+};
+
+
 
 
 

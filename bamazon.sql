@@ -15,33 +15,33 @@ CREATE TABLE products (
 SELECT * FROM products;
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("New Yorker", "magazine", 6, 100);
+VALUES ("two person tent", "camping", 130, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("ale", "beer_and_wine", 4, 100);
+VALUES ("wool socks", "clothing", 13, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("socks", "mens_clothing", 6, 100);
+VALUES ("hemp shirt", "clothing", 40, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("underwear", "mens_clothing", 12, 100);
+VALUES ("underwear", "clothing", 12, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("bra", "womens_clothing", 14, 100);
+VALUES ("propane stove", "camping", 85, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("notebook", "paper_goods", 5, 100);
+VALUES ("trail map", "books", 5, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("cast_iron", "kitchen", 40, 100);
+VALUES ("cast_iron", "cooking", 40, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("blender", "kitchen", 25, 100);
+VALUES ("knife", "cooking", 25, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("Jacobin", "magazine", 16, 100);
+VALUES ("star map", "books", 16, 100);
 
 INSERT INTO products (`product_name`, `department_name`, `price`, `stock_quantity`)
-VALUES ("stout", "beer_and_wine", 8, 100);
+VALUES ("hammock", "camping", 8, 100);
 
 

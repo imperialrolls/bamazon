@@ -5,7 +5,7 @@ var Table = require('cli-table');
 
 
 function viewAllProducts() {
-  connection.query('SELECT * FROM products', function(error, res) {
+  connection.query('SELECT * FROM products ORDER BY department_name', function(error, res) {
     if (error) throw error;
     var table = new Table({
       head: ['item_Id', 'Product Name', 'Department', 'Price', 'Stock Quantity']
@@ -23,14 +23,14 @@ function viewAllProducts() {
 };
 
 function lowInventoryList() {
-  connection.query("SELECT * FROM products WHERE stock_quantity<=50", function(error, res) {
+  connection.query("SELECT * FROM products WHERE stock_quantity<=10", function(error, res) {
     if (error) throw error;
     var table = new Table({
-      head: ['item_Id', 'Product Name', 'Stock Quantity']
+      head: ['item_Id', 'Product Name', 'Department', 'Price', 'Stock Quantity']
     });
     for (i = 0; i < res.length; i++) {
       table.push(
-        [res[i].item_id, res[i].product_name, res[i].stock_quantity]
+        [res[i].item_id, res[i].product_name, res[i].department_name, res[i].department_name, res[i].stock_quantity]
       );
     }
     console.log(table.toString());
@@ -40,7 +40,7 @@ function lowInventoryList() {
 };
 
 function completeAddInventory(item) {
-  inquirer.prompt([{
+  inquirer.prompt([{Zx
     type: 'input',
     message: '\nSpecify amount of stock to add to ' + item.product_name + '.\n',
     name: 'addStock',
@@ -155,8 +155,8 @@ function addNewProduct() {
 function promptAction() {
   inquirer.prompt([{
     type: 'list',
-    message: 'Select from list below what action you would like to complete.',
-    choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product'],
+    message: 'Bamazon Manager Function Selections:',
+    choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product', 'Exit Bamazon Manager'],
     name: "action"
   }, ]).then(function(selection) {
     switch (selection.action) {
@@ -175,6 +175,12 @@ function promptAction() {
       case 'Add New Product':
         addNewProduct();
         break;
+
+      case 'Exit Bamazon Manager':
+        process.exit();
+        break;       
+
+
     }
   }).catch(function(error) {
     throw error;
