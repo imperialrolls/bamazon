@@ -1,6 +1,7 @@
 # BAMAZON
 This is an Amazon-like storefront app that will take in orders from customers and deplete stock from the store's inventory.
 
+Please follow the link below to watch me showing off my working app!
 **[Demonstration Video](https://github.com/imperialrolls/bamazon/tree/master/assets)**
 
 **Customer View**
