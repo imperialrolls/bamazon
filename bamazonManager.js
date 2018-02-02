@@ -60,7 +60,7 @@ function lowInventoryList() {
 
 // this function completes the proceeding function adding a user specified amount of inventory via an mysql UPDATE
 function completeAddInventory(item) {
-  inquirer.prompt([{//Zx
+  inquirer.prompt([{
     type: 'input',
     message: '\nSpecify amount of stock to add to ' + item.product_name + '.\n',
     name: 'addStock',
